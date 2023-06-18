@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerMiddleware } from './middlewares/logger.middlewares';
@@ -7,7 +7,7 @@ import { LoggerMiddleware } from './middlewares/logger.middlewares';
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true })],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ConfigService],
   exports: [],
 })
 export class AppModule implements NestModule {
