@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { Users } from 'src/entities/Users';
 import { DataSource } from 'typeorm';
 
 export const typeORMConfig: TypeOrmModuleOptions = {
@@ -8,7 +9,7 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   username: 'root',
   password: '123456789',
   database: 'nest-todo',
-  entities: [],
+  entities: [Users],
   synchronize: true,
   logging: true,
 };

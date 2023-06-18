@@ -1,3 +1,4 @@
+import { Users } from 'src/entities/Users';
 import { DataSource } from 'typeorm';
 
 const dataSource = new DataSource({
@@ -7,7 +8,7 @@ const dataSource = new DataSource({
   username: 'root',
   password: '123456789',
   database: 'nest-todo',
-  entities: [],
+  entities: [Users],
   synchronize: true,
   logging: true,
 });
