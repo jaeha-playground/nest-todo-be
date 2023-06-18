@@ -3,9 +3,23 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerMiddleware } from './middlewares/logger.middlewares';
+import { UsersModule } from './users/users.module';
+
+const getEnv = async () => {
+  // const response = await axios.get('/비밀키요청')
+  // return await response.data
+
+  return {
+    DB_PASSWORD: 'password',
+    DB_NAME: 'mysql',
+  };
+};
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true })],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true, load: [getEnv] }),
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [AppService, ConfigService],
   exports: [],
