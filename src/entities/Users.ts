@@ -54,7 +54,7 @@ export class Users {
   @Column('varchar', {
     name: 'password',
     unique: true,
-    length: 16,
+    length: 100,
     select: false,
   })
   password: string;

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { typeORMConfig } from './config/typeorm.config';
+import { Users } from './entities/Users';
 import { LoggerMiddleware } from './middlewares/logger.middlewares';
 import { UsersModule } from './users/users.module';
 
@@ -19,7 +20,8 @@ const getEnv = async () => {
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [getEnv] }),
+    // ConfigModule.forRoot({ isGlobal: true, load: [getEnv] }),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(typeORMConfig),
     UsersModule,
   ],

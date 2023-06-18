@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
@@ -24,5 +24,12 @@ export class UsersController {
       nickname: body.nickname,
       password: body.password,
     });
+  }
+
+  @ApiOperation({ summary: '로그인' })
+  // @UseGuards(LocalAuthGuard)
+  @Post('login')
+  login(@User() user) {
+    return user;
   }
 }
