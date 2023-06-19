@@ -10,6 +10,7 @@ import bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
+  // service 안에서는 repository
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,

@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entities/Users';
 import { JoinRequestDto } from './dto/join.request.dto';
@@ -16,6 +17,7 @@ export class UsersController {
     return user || false;
   }
 
+  // 회원가입
   @Post('join')
   async join(@Body() body: JoinRequestDto) {
     await this.usersService.join({
@@ -27,7 +29,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: '로그인' })
-  // @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@User() user) {
     return user;
