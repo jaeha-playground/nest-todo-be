@@ -6,9 +6,13 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Images } from './Images';
+import { Todos } from './Todos';
 
 @Index('email', ['email'], { unique: true })
 @Entity({ schema: 'nest-todo', name: 'users' })
@@ -67,4 +71,10 @@ export class Users {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToOne(() => Images, (images) => images.user)
+  Images: Images;
+
+  @OneToMany(() => Todos, (todos) => todos.Owner)
+  Todos: Todos[];
 }
