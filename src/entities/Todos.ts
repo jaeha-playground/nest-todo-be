@@ -16,7 +16,7 @@ import { Categories } from './Categories';
 import { Images } from './Images';
 import { Users } from './Users';
 
-enum TodoStatus {
+export enum TodoStatus {
   TODO = 'TODO',
   IN_PROGRESS = 'IN_PROGRESS',
   DONE = 'DONE',
