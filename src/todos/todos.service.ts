@@ -19,7 +19,7 @@ export class TodosService {
       .innerJoin('todos.Owner', 'owner', 'ownerId = :id', {
         id,
       })
-      .leftJoinAndSelect('todos.Images', 'images')
+      .leftJoinAndSelect('todos.images', 'images')
       .orderBy('todos.updatedAt', 'DESC')
       .skip(currentPage * perPage)
       .take(perPage) // limit
@@ -29,13 +29,13 @@ export class TodosService {
     return todos;
   }
 
-  async createTodo({ user, title, body, status, Images }) {
+  async createTodo({ user, title, body, status }) {
     return this.todosRepository.save({
       user,
       title,
       body,
       status,
-      Images,
+      // Images,
     });
   }
 }

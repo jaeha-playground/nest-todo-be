@@ -42,7 +42,7 @@ export class TodosController {
       title: body.title,
       body: body.body,
       status: body.status,
-      Images: body.Images,
+      // Images: body.Images,
     });
   }
 

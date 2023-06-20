@@ -14,6 +14,6 @@ export class Categories {
   @Column('varchar', { name: 'categoryName', length: 30 })
   categoryName: string;
 
-  @ManyToMany(() => Todos, (todos) => todos.Categories)
-  Todos: Todos[];
+  @ManyToMany(() => Todos, (todos) => todos.categories)
+  todos: Todos[];
 }
