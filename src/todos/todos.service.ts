@@ -19,6 +19,7 @@ export class TodosService {
       .innerJoin('todos.Owner', 'owner', 'ownerId = :id', {
         id,
       })
+      .leftJoinAndSelect('todos.Images', 'images')
       .orderBy('todos.updatedAt', 'DESC')
       .skip(currentPage * perPage)
       .take(perPage) // limit

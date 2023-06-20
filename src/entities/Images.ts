@@ -32,8 +32,8 @@ export class Images {
   deletedAt: Date;
 
   @ManyToOne(() => Todos, (todos) => todos.Images)
-  @JoinColumn([{ name: 'todoId', referencedColumnName: 'id' }])
-  todoImageUrl: string;
+  @JoinColumn([{ name: 'todoImageUrl', referencedColumnName: 'id' }])
+  todoImageUrl: Todos;
 
   @OneToOne(() => Users, (users) => users.Images)
   @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
