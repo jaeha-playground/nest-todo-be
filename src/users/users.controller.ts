@@ -9,7 +9,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { NotLoggedInGuard } from 'src/auth/not-logged-in.guard';
-import { User } from 'src/common/decorators/user.decorator';
+import { GetUser } from 'src/common/decorators/user.decorator';
 import { UndefinedToNullInterceptor } from 'src/common/interceptors/undefinedToNull.interceptor';
 import { Users } from 'src/entities/Users';
 import { JoinRequestDto } from './dto/join.request.dto';
@@ -23,7 +23,7 @@ export class UsersController {
 
   @ApiOperation({ summary: '내 정보 가져오기' })
   @Get()
-  getProfile(@User() user: Users) {
+  getProfile(@GetUser() user: Users) {
     return user || false;
   }
 
@@ -43,7 +43,7 @@ export class UsersController {
   @ApiOperation({ summary: '로그인' })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@User() user) {
+  login(@GetUser() user) {
     return user;
   }
 }
