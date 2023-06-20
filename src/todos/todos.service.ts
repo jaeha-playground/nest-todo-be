@@ -28,4 +28,14 @@ export class TodosService {
 
     return todos;
   }
+
+  async createTodo({ user, title, body, status, Images }) {
+    return this.todosRepository.save({
+      user,
+      title,
+      body,
+      status,
+      Images,
+    });
+  }
 }
