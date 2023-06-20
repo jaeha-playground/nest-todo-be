@@ -22,12 +22,6 @@ export class Images {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('int', { name: 'TodoId', nullable: true })
-  TodoId: number | null;
-
-  @Column('int', { name: 'UserId', nullable: true })
-  UserId: number | null;
-
   @CreateDateColumn()
   createdAt: Date;
 
@@ -38,9 +32,11 @@ export class Images {
   deletedAt: Date;
 
   @ManyToOne(() => Todos, (todos) => todos.Images)
-  @JoinColumn([{ name: 'TodoId', referencedColumnName: 'id' }])
+  @JoinColumn([{ name: 'todoId', referencedColumnName: 'id' }])
   todoImageUrl: string;
 
   @OneToOne(() => Users, (users) => users.Images)
-  userImageUrl: string;
+  @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
+  // @JoinColumn()
+  user: string;
 }

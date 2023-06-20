@@ -35,6 +35,6 @@ export class UsersService {
       password: hashPassword,
     });
 
-    return 'hello';
+    return true;
   }
 }

@@ -4,14 +4,17 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Categories } from './Categories';
 import { Images } from './Images';
+import { Users } from './Users';
 
 enum TodoStatus {
   TODO = 'TODO',
@@ -49,6 +52,10 @@ export class Todos {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @ManyToOne(() => Users, (users) => users.Todos)
+  @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
+  Owner: Users;
 
   @OneToMany(() => Images, (images) => images.todoImageUrl)
   Images: Images[];
