@@ -31,7 +31,7 @@ export class TodosService {
 
   async createTodo({ user, title, body, status }) {
     return this.todosRepository.save({
-      user,
+      // ownerId: user,
       title,
       body,
       status,

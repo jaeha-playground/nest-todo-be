@@ -12,9 +12,14 @@ declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const port = process.env.PORT || 3000;
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  });
+  const port = process.env.PORT || 3000;
 
   const config = new DocumentBuilder()
     .setTitle('nestjs todo API')
@@ -33,6 +38,9 @@ async function bootstrap() {
       secret: process.env.COOKIE_SECRET,
       cookie: {
         httpOnly: true,
+        // secure: false,
+        // maxAge: 1000 * 60 * 30, // 쿠키 유효기간: 30분
+        // path: '/',
       },
     }),
   );
