@@ -29,13 +29,20 @@ export class TodosService {
     return todos;
   }
 
-  async createTodo({ user, title, body, status }) {
-    return this.todosRepository.save({
-      // ownerId: user,
-      title,
-      body,
-      status,
-      // Images,
-    });
+  async createTodo({ userId, title, body, status }) {
+    const todos = new Todos();
+    todos.title = title;
+    todos.body = body;
+    todos.status = status;
+    todos.owner = userId;
+    return await this.todosRepository.save(todos);
+    // return this.todosRepository.save({
+
+    //   title,
+    //   body,
+    //   status,
+    //   // Images,
+    //   ownerId: userId,
+    // });
   }
 }

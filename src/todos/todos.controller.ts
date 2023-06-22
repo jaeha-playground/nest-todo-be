@@ -4,9 +4,11 @@ import {
   Get,
   Post,
   Query,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggedInGuard } from 'src/auth/logged-in.guard';
 import { GetUser } from 'src/common/decorators/user.decorator';
 import { UndefinedToNullInterceptor } from 'src/common/interceptors/undefinedToNull.interceptor';
 import { Users } from 'src/entities/Users';
@@ -14,6 +16,8 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodosService } from './todos.service';
 
 @ApiTags('TODOS')
+@ApiCookieAuth('connect.sid')
+@UseGuards(LoggedInGuard)
 @Controller('api/todos')
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
@@ -27,18 +31,17 @@ export class TodosController {
     return await this.todosService.getAllTodos({
       id: body.id,
       currentPage: query.page,
-      perPage: query.perPage,
+      perPage: (query.perPage = 10),
     });
   }
 
   @ApiOperation({ summary: 'Todo 생성하기' })
-  @Post()
+  @Post('create')
   async createTodo(@GetUser() user: Users, @Body() body: CreateTodoDto) {
     console.log('user>>>', user);
 
     return this.todosService.createTodo({
-      // user: user.id,
-      user: 1,
+      userId: user.id,
       title: body.title,
       body: body.body,
       status: body.status,
