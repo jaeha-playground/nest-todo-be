@@ -73,8 +73,8 @@ export class Users {
   deletedAt: Date;
 
   @OneToOne(() => Images, (images) => images.user)
-  Images: Images;
+  images: Images;
 
-  @OneToMany(() => Todos, (todos) => todos.Owner)
-  Todos: Todos[];
+  @OneToMany(() => Todos, (todos) => todos.owner)
+  todos: Todos[];
 }
