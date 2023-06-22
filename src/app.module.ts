@@ -8,6 +8,7 @@ import { typeORMConfig } from './config/typeorm.config';
 import { Users } from './entities/Users';
 import { LoggerMiddleware } from './middlewares/logger.middlewares';
 import { UsersModule } from './users/users.module';
+import { TodosModule } from './todos/todos.module';
 
 const getEnv = async () => {
   // const response = await axios.get('/비밀키요청')
@@ -26,6 +27,7 @@ const getEnv = async () => {
     TypeOrmModule.forRoot(typeORMConfig),
     UsersModule,
     AuthModule,
+    TodosModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

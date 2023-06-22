@@ -16,7 +16,7 @@ import { Categories } from './Categories';
 import { Images } from './Images';
 import { Users } from './Users';
 
-enum TodoStatus {
+export enum TodoStatus {
   TODO = 'TODO',
   IN_PROGRESS = 'IN_PROGRESS',
   DONE = 'DONE',
@@ -53,14 +53,14 @@ export class Todos {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToOne(() => Users, (users) => users.Todos)
-  @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
-  Owner: Users;
+  @ManyToOne(() => Users, (users) => users.todos)
+  @JoinColumn([{ name: 'ownerId', referencedColumnName: 'id' }])
+  owner: Users;
 
-  @OneToMany(() => Images, (images) => images.todoImageUrl)
-  Images: Images[];
+  @OneToMany(() => Images, (images) => images.todo)
+  images: Images[];
 
-  @ManyToMany(() => Categories, (categories) => categories.Todos)
+  @ManyToMany(() => Categories, (categories) => categories.todos)
   @JoinTable({
     name: 'todoCategories',
     joinColumn: {
@@ -72,5 +72,5 @@ export class Todos {
       referencedColumnName: 'id',
     },
   })
-  Categories: Categories[];
+  categories: Categories[];
 }

@@ -6,10 +6,10 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { NotLoggedInGuard } from 'src/auth/not-logged-in.guard';
-import { User } from 'src/common/decorators/user.decorator';
+import { GetUser } from 'src/common/decorators/user.decorator';
 import { UndefinedToNullInterceptor } from 'src/common/interceptors/undefinedToNull.interceptor';
 import { Users } from 'src/entities/Users';
 import { JoinRequestDto } from './dto/join.request.dto';
@@ -21,9 +21,11 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // 내 정보(로그인한 유저) 가져오기
+  @ApiCookieAuth('connect.sid')
   @ApiOperation({ summary: '내 정보 가져오기' })
   @Get()
-  getProfile(@User() user: Users) {
+  getProfile(@GetUser() user: Users) {
     return user || false;
   }
 
@@ -33,7 +35,6 @@ export class UsersController {
   @Post('join')
   async join(@Body() body: JoinRequestDto) {
     await this.usersService.join({
-      // body.email, body.nickname, body.password
       email: body.email,
       nickname: body.nickname,
       password: body.password,
@@ -43,7 +44,7 @@ export class UsersController {
   @ApiOperation({ summary: '로그인' })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@User() user) {
+  login(@GetUser() user) {
     return user;
   }
 }

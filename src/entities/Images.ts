@@ -22,6 +22,9 @@ export class Images {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
+  @Column({ nullable: true })
+  src: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -31,12 +34,11 @@ export class Images {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToOne(() => Todos, (todos) => todos.Images)
+  @ManyToOne(() => Todos, (todos) => todos.images)
   @JoinColumn([{ name: 'todoId', referencedColumnName: 'id' }])
-  todoImageUrl: string;
+  todo: Todos;
 
-  @OneToOne(() => Users, (users) => users.Images)
+  @OneToOne(() => Users, (users) => users.images)
   @JoinColumn([{ name: 'userId', referencedColumnName: 'id' }])
-  // @JoinColumn()
-  user: string;
+  user: Users;
 }
