@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -54,7 +55,7 @@ export class TodosController {
     });
   }
 
-  @ApiOperation({ summary: 'Todo 생성하기' })
+  @ApiOperation({ summary: 'Todo 업데이트하기' })
   @Put('update/:id')
   async updateTodo(
     @GetUser() user: Users,
@@ -70,6 +71,11 @@ export class TodosController {
       // Images: body.Images,
     });
   }
-
-  async deleteTodo() {}
+  @ApiOperation({ summary: 'Todo 삭제하기' })
+  @Delete('delete/:id')
+  async deleteTodo(@Param('id') id: number) {
+    return this.todosService.deleteTodo({
+      postId: id,
+    });
+  }
 }

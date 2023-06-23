@@ -66,4 +66,12 @@ export class TodosService {
 
     return todo;
   }
+
+  async deleteTodo({ postId }) {
+    const result = await this.todosRepository.delete({ id: postId });
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find Board with id ${postId}`);
+    }
+  }
 }
