@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -24,14 +25,23 @@ export class TodosController {
 
   @ApiOperation({ summary: '내 Todo 가져오기' })
   @Get('all')
-  async getAllTodos(@Body() body, @Query() query) {
-    console.log('body>>>', body);
-    console.log('query>>>', query.perPage, query.page);
+  async getAllTodos(@GetUser() user: Users, @Query() query) {
+    console.log('query>>>', query.page);
 
     return await this.todosService.getAllTodos({
-      id: body.id,
+      id: user.id,
       currentPage: query.page,
-      perPage: (query.perPage = 10),
+      perPage: query.perPage || 2,
+    });
+  }
+
+  @ApiOperation({ summary: '특정 Todo 가져오기' })
+  @Get('/:id')
+  async getSpecificTodo(@GetUser() user: Users, @Param('id') id: number) {
+    console.log('id>>>', id);
+
+    return await this.todosService.getSpecificTodo({
+      id,
     });
   }
 

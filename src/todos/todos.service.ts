@@ -16,7 +16,7 @@ export class TodosService {
 
     const todos = await this.todosRepository
       .createQueryBuilder('todos')
-      .innerJoin('todos.Owner', 'owner', 'ownerId = :id', {
+      .innerJoin('todos.owner', 'owner', 'owner.id= :id', {
         id,
       })
       .leftJoinAndSelect('todos.images', 'images')
@@ -27,6 +27,18 @@ export class TodosService {
     console.log('todos>>', todos);
 
     return todos;
+  }
+
+  async getSpecificTodo({ id }) {
+    const todo = await this.todosRepository
+      .createQueryBuilder('todos')
+      .leftJoinAndSelect('todos.images', 'images')
+      .where('todos.id = :id', { id })
+      .getOne();
+
+    console.log('todo>>', todo);
+
+    return todo;
   }
 
   async createTodo({ userId, title, body, status }) {
