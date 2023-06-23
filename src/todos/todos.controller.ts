@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UseGuards,
   UseInterceptors,
@@ -26,8 +27,6 @@ export class TodosController {
   @ApiOperation({ summary: '내 Todo 가져오기' })
   @Get('all')
   async getAllTodos(@GetUser() user: Users, @Query() query) {
-    console.log('query>>>', query.page);
-
     return await this.todosService.getAllTodos({
       id: user.id,
       currentPage: query.page,
@@ -38,8 +37,6 @@ export class TodosController {
   @ApiOperation({ summary: '특정 Todo 가져오기' })
   @Get('/:id')
   async getSpecificTodo(@GetUser() user: Users, @Param('id') id: number) {
-    console.log('id>>>', id);
-
     return await this.todosService.getSpecificTodo({
       id,
     });
@@ -48,8 +45,6 @@ export class TodosController {
   @ApiOperation({ summary: 'Todo 생성하기' })
   @Post('create')
   async createTodo(@GetUser() user: Users, @Body() body: CreateTodoDto) {
-    console.log('user>>>', user);
-
     return this.todosService.createTodo({
       userId: user.id,
       title: body.title,
@@ -59,7 +54,22 @@ export class TodosController {
     });
   }
 
-  async updateTodo() {}
+  @ApiOperation({ summary: 'Todo 생성하기' })
+  @Put('update/:id')
+  async updateTodo(
+    @GetUser() user: Users,
+    @Body() body: CreateTodoDto,
+    @Param('id') id: number,
+  ) {
+    return this.todosService.updateTodo({
+      postId: id,
+      userId: user.id,
+      title: body.title,
+      body: body.body,
+      status: body.status,
+      // Images: body.Images,
+    });
+  }
 
   async deleteTodo() {}
 }

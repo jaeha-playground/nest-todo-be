@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Todos } from 'src/entities/Todos';
 import { DataSource, Repository } from 'typeorm';
@@ -12,8 +12,6 @@ export class TodosService {
   ) {}
 
   async getAllTodos({ id, perPage, currentPage }): Promise<Todos[]> {
-    console.log('user.id>>>', id);
-
     const todos = await this.todosRepository
       .createQueryBuilder('todos')
       .innerJoin('todos.owner', 'owner', 'owner.id= :id', {
@@ -24,7 +22,6 @@ export class TodosService {
       .skip(currentPage * perPage)
       .take(perPage) // limit
       .getMany();
-    console.log('todos>>', todos);
 
     return todos;
   }
@@ -35,8 +32,6 @@ export class TodosService {
       .leftJoinAndSelect('todos.images', 'images')
       .where('todos.id = :id', { id })
       .getOne();
-
-    console.log('todo>>', todo);
 
     return todo;
   }
@@ -56,5 +51,19 @@ export class TodosService {
     //   // Images,
     //   ownerId: userId,
     // });
+  }
+
+  async updateTodo({ postId, userId, title, body, status }) {
+    const todo = await this.todosRepository.findOne({ where: { id: postId } });
+
+    if (!todo) {
+      throw new NotFoundException(`Can't find Board with id ${postId}`);
+    }
+    todo.title = title;
+    todo.body = body;
+    todo.status = status;
+    await this.todosRepository.save(todo);
+
+    return todo;
   }
 }
